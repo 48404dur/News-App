@@ -12,7 +12,6 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    const storedNewsData = localStorage.getItem('NewsData')
     const fetchnews = async () => {
       setLoading(true);
       try {
@@ -21,27 +20,27 @@ export default function Navbar() {
         );
         const data = await response.json();
         setnewsdata(data.articles);
-        console.log(data.articles)
-        localStorage.setItem('NewsData' , JSON.stringify(data.articles))
+        localStorage.setItem(`NewsData-${category}`, JSON.stringify(data.articles));  // Store with category-specific key
       } catch (error) {
         console.log("Error Fetching the data", error);
       } finally {
         setLoading(false);
       }
     }
-    if(storedNewsData){
-      setnewsdata(JSON.parse(storedNewsData))
+
+    const storedNewsData = localStorage.getItem(`NewsData-${category}`);  // Retrieve with category-specific key
+    if (storedNewsData) {
+      setnewsdata(JSON.parse(storedNewsData));
+      setLoading(false);  // Stop spinner immediately if data is found in localStorage
+    } else {
+      fetchnews();
     }
-    else{
-      fetchnews()
-    }
-    
   }, [category]);
 
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-dark">
-        <div className="container-fluid " >
+        <div className="container-fluid">
           <a className="navbar-brand ms-5 text-white" href="\">
             -News-
           </a>
@@ -49,7 +48,7 @@ export default function Navbar() {
             className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target="\navbarNav"
+            data-bs-target="#navbarNav"
             aria-controls="navbarNav"
             aria-expanded="false"
             aria-label="Toggle navigation"
@@ -63,34 +62,34 @@ export default function Navbar() {
                   General
                 </a>
               </li>
-              <li className="nav-item ">
+              <li className="nav-item">
                 <a className="nav-link text-white" href="\" onClick={() => newscategory("Music")}>
                   Music
                 </a>
               </li>
-              <li className="nav-item ">
+              <li className="nav-item">
                 <a className="nav-link text-white" href="\" onClick={() => newscategory("Entertainment")}>
                   Entertainment
                 </a>
               </li>
-              <li className="nav-item ">
+              <li className="nav-item">
                 <a className="nav-link text-white" href="\" onClick={() => newscategory("Cartoon")}>
                   Cartoon
                 </a>
               </li>
-              <li className="nav-item ">
+              <li className="nav-item">
                 <a className="nav-link text-white" href="\" onClick={() => newscategory("Geography")}>
                   Geography
                 </a>
               </li>
-              <li className="nav-item ">
+              <li className="nav-item">
                 <a className="nav-link text-white" href="\" onClick={() => newscategory("Hollywood")}>
                   Hollywood
                 </a>
               </li>
-              <form class="d-flex " role="search" style={{marginLeft : "80px"}}>
-                <input class="form-control " type="search" placeholder="Search" aria-label="Search"/>
-                <button class="btn btn-primary ms-3" type="submit">Search</button>
+              <form className="d-flex" role="search" style={{ marginLeft: "80px" }}>
+                <input className="form-control" type="search" placeholder="Search" aria-label="Search" />
+                <button className="btn btn-primary ms-3" type="submit">Search</button>
               </form>
             </ul>
           </div>
