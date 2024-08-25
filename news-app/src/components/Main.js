@@ -6,9 +6,22 @@ export default function Navbar() {
   const [newsdata, setnewsdata] = useState([]);
   const [category, setcategory] = useState("General");
   const [loading, setLoading] = useState(true);
+  const [value, setvalue] = useState("");
 
   const newscategory = (NewCategory) => {
     setcategory(NewCategory);
+  };
+
+  const Handlechange = (e) => {
+    setvalue(e.target.value);
+  };
+
+  const setCustomCategory = (e) => {
+    e.preventDefault(); // Prevent form submission
+    if (value.trim() !== "") {
+      setcategory(value); // Update category to the custom search value
+      setvalue(""); // Clear the input field after setting the category
+    }
   };
 
   useEffect(() => {
@@ -20,22 +33,22 @@ export default function Navbar() {
         );
         const data = await response.json();
         setnewsdata(data.articles);
-        localStorage.setItem(`NewsData-${category}`, JSON.stringify(data.articles));  // Store with category-specific key
+        localStorage.setItem(`NewsData-${category}`, JSON.stringify(data.articles)); // Store with category-specific key
       } catch (error) {
         console.log("Error Fetching the data", error);
       } finally {
         setLoading(false);
       }
-    }
+    };
 
-    const storedNewsData = localStorage.getItem(`NewsData-${category}`);  // Retrieve with category-specific key
+    const storedNewsData = localStorage.getItem(`NewsData-${category}`); // Retrieve with category-specific key
     if (storedNewsData) {
       setnewsdata(JSON.parse(storedNewsData));
-      setLoading(false);  // Stop spinner immediately if data is found in localStorage
+      setLoading(false); // Stop spinner immediately if data is found in localStorage
     } else {
       fetchnews();
     }
-  }, [category]);
+  }, [category]); // This will re-fetch news whenever the category changes
 
   return (
     <>
@@ -58,37 +71,37 @@ export default function Navbar() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link active text-white" aria-current="page" href="\" onClick={() => newscategory("General")}>
+                <a className="nav-link active text-white" aria-current="page" href="\" onClick={(e) => {e.preventDefault(); newscategory("General")}}>
                   General
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link text-white" href="\" onClick={() => newscategory("Music")}>
+                <a className="nav-link text-white" href="\" onClick={(e) => {e.preventDefault(); newscategory("Music")}}>
                   Music
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link text-white" href="\" onClick={() => newscategory("Entertainment")}>
+                <a className="nav-link text-white" href="\" onClick={(e) => {e.preventDefault(); newscategory("Entertainment")}}>
                   Entertainment
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link text-white" href="\" onClick={() => newscategory("Cartoon")}>
+                <a className="nav-link text-white" href="\" onClick={(e) => {e.preventDefault(); newscategory("Cartoon")}}>
                   Cartoon
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link text-white" href="\" onClick={() => newscategory("Geography")}>
+                <a className="nav-link text-white" href="\" onClick={(e) => {e.preventDefault(); newscategory("Geography")}}>
                   Geography
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link text-white" href="\" onClick={() => newscategory("Hollywood")}>
+                <a className="nav-link text-white" href="\" onClick={(e) => {e.preventDefault(); newscategory("Hollywood")}}>
                   Hollywood
                 </a>
               </li>
-              <form className="d-flex" role="search" style={{ marginLeft: "80px" }}>
-                <input className="form-control" type="search" placeholder="Search" aria-label="Search" />
+              <form className="d-flex" role="search" style={{ marginLeft: "80px" }} onSubmit={setCustomCategory}>
+                <input className="form-control" type="search" placeholder="Search" aria-label="Search" value={value} onChange={Handlechange} />
                 <button className="btn btn-primary ms-3" type="submit">Search</button>
               </form>
             </ul>
