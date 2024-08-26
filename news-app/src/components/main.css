@@ -1,6 +1,81 @@
 .nav-item{
-    margin-left: 25px;
+  margin-left: 15px;
 }
-.navbar-nav{
-    margin-left: 230px;
+.nav-link{
+    color: lightgray;
+}
+.nav-link:hover{
+    color: white;
+}
+/* main.css */
+
+/* Ensure text visibility for all elements */
+body {
+    color: #000; /* Default text color */
+    background-color: #f8f9fa; /* Light background */
+  }
+  
+  h1.text-center.mt-3 {
+    color: #333; /* Category title color */
+    font-size: 2rem;
+    margin-top: 20px;
+  }
+  
+  /* Card title and text */
+  .card-title {
+    color: #000; /* Card title color */
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  
+  .card-text {
+    color: #555; /* Card text color */
+    font-size: 1rem;
+  }
+  
+  /* Handle spinner visibility */
+  .spinner-border {
+    color: #007bff; /* Spinner color */
+  }
+  
+  /* Adjust margin and padding for the container */
+  .container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  /* Responsive navbar brand */
+  .navbar-brand {
+    font-size: 1.5rem;
+  }
+  
+  /* Adjust card layout for different screen sizes */
+  @media (max-width: 767.98px) {
+    .card {
+      flex-basis: calc(100% - 1rem); /* Full width on small screens */
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 991.98px) {
+    .card {
+      flex-basis: calc(50% - 1rem); /* Two columns on medium screens */
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .card {
+      flex-basis: calc(25% - 1rem); /* Four columns on large screens */
+    }
+  }
+  @media (max-width: 991.98px) {
+    .navbar-collapse {
+        text-align: center;
+    }
+    .navbar-nav {
+        flex-direction: column;
+    }
+    .search-bar {
+        width: 80%;
+        margin: 10px auto;
+    }
 }
